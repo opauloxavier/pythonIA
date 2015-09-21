@@ -1,6 +1,6 @@
 import numpy
 
-sizeChest=8
+sizeChest = 8
 
 def start(sizeChest):
 	return numpy.zeros((sizeChest,sizeChest))
@@ -8,17 +8,38 @@ def start(sizeChest):
 def movement(chest,i,j):
 	chest[i][j]=1
 
-def rejected_Spots(i,j):
-	xmax=sizeChest-1
-	ymax=sizeChest-1
+def  rejected_spot(i,j):
 
-	for x,y in enumerate(chest):
-		print float(x)==y[x]
+	print len(chest)
+
+	for x in range(len(chest)):
+		for y in range(len(chest)):
+			if (x == i or y == j) and chest[x][y] != 1:
+				chest[x][y] = -1
+
+	print chest
+
+def diagonais(i,j):
+	loop=1
+	
+	for x in range(sizeChest):
+
+		if(i+loop <sizeChest and i-loop >=0 and j-loop>=0 and j+loop<sizeChest):
+			print(i+loop,j+loop)
+			print(i-loop,j-loop)
+			print(i-loop,j+loop)
+			print(i+loop,j-loop)
+			loop+=1	
+	
+			
 
 
 
 chest = start(sizeChest)
 
-movement(chest,0,0)
+#movement(chest,2,2)
 
-rejected_Spots(0,0)
+#rejected_spot(2,2)
+
+diagonais(2,2)
+#print defineDiagonal(0,0)
