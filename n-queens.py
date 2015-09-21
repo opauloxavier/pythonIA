@@ -11,13 +11,20 @@ def movement(chest,i,j):
 def  rejected_spot(i,j):
 
 	print len(chest)
+	line = i
+	column = j
 
 	for x in range(len(chest)):
 		for y in range(len(chest)):
 			if (x == i or y == j) and chest[x][y] != 1:
 				chest[x][y] = -1
-
+			if  (x == (i - line) and y = (j - column)) and  chest[x][y] != 1:
+				chest[x][y] = -1
 	print chest
+
+def isPrincipalDiagonal(x, y, i, j):
+
+
 
 def diagonais(i,j):
 	loop=1
@@ -31,9 +38,6 @@ def diagonais(i,j):
 			print(i+loop,j-loop)
 			loop+=1	
 	
-			
-
-
 
 chest = start(sizeChest)
 
