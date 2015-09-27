@@ -1,9 +1,11 @@
 import numpy
+import copy
 
 class No:
 	def __init__(self, tamanho):
 		self.tamanhoTabuleiro = tamanho
 		self.tabuleiro = numpy.zeros((tamanho, tamanho))
+		self.filhos = []
 
 	def espacosRejeitados(self, i, j):
 		linha = i
@@ -26,8 +28,6 @@ class No:
 		else:
 			coluna_secundaria = soma
 
-		print(linha_secundaria, coluna_secundaria)
-
 		for x in range(self.tamanhoTabuleiro):
 			for y in range(self.tamanhoTabuleiro):
 				if (x == i or y == j) and self.tabuleiro[x][y] < 1:
@@ -38,21 +38,28 @@ class No:
 					linha -= 1
 					coluna -= 1
 				if (x == linha_secundaria) and (y == coluna_secundaria):
-					print(linha_secundaria, coluna_secundaria)
 					if self.tabuleiro[x][y] != 5:
 						self.tabuleiro[x][y] = -1
 					linha_secundaria += 1
 					coluna_secundaria -= 1
 
-
 	def jogada(self, i, j):
 		self.tabuleiro[i][j] = 5
 		self.espacosRejeitados(i, j)
-		print(self.tabuleiro)
 
 class Arvore:
 	def __init__(self, tamanho):
 		self.raiz = No(tamanho)
 
-node = No(6)
-node.jogada(2, 3)
+	def possibilidadesRaiz(self):
+		for x in range(self.raiz.tamanhoTabuleiro):
+			for y in range(self.raiz.tamanhoTabuleiro):
+				no = copy.deepcopy(self.raiz)
+				no.jogada(x, y)
+				print(no.tabuleiro)
+				print()
+				self.raiz.filhos.append(no)
+		print(len(self.raiz.filhos))
+
+tree = Arvore(4)
+tree.possibilidadesRaiz()
