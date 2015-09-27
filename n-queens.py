@@ -7,6 +7,7 @@ class No:
 		self.tabuleiro = numpy.zeros((tamanho, tamanho))
 		self.filhos = []
 
+	#anula as diagonais, linhas e colunas da rainha
 	def espacosRejeitados(self, i, j):
 		linha = i
 		coluna = j
@@ -43,6 +44,7 @@ class No:
 					linha_secundaria += 1
 					coluna_secundaria -= 1
 
+	#põe uma rainha no local indicado
 	def jogada(self, i, j):
 		self.tabuleiro[i][j] = 5
 		self.espacosRejeitados(i, j)
@@ -51,15 +53,26 @@ class Arvore:
 	def __init__(self, tamanho):
 		self.raiz = No(tamanho)
 
+	#faz os filhos da raiz, usar copy.deepcopy para fazer passagem de valor
+	#funcao generica, tem que generalizar 
 	def possibilidadesRaiz(self):
 		for x in range(self.raiz.tamanhoTabuleiro):
 			for y in range(self.raiz.tamanhoTabuleiro):
 				no = copy.deepcopy(self.raiz)
 				no.jogada(x, y)
-				print(no.tabuleiro)
-				print()
 				self.raiz.filhos.append(no)
 		print(len(self.raiz.filhos))
 
+	#conta e retorna quantos vazios tem no tabuleiro, entrada eh um no
+	def vazios(self, no):
+		vazios = 0
+		for x in range(no.tamanhoTabuleiro):
+			for y in range(no.tamanhoTabuleiro):
+				if no.tabuleiro[x][y] == 0:
+					vazios += 1
+		return vazios
+
+
 tree = Arvore(4)
 tree.possibilidadesRaiz()
+print(tree.vazios(tree.raiz.filhos[0]))
