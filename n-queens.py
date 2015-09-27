@@ -32,8 +32,9 @@ class No:
 		self.tabuleiro[i][j] = valor
 		self.espacosRejeitados(i, j)
 
+class Arvore:
+	def __init__(self, tamanho):
+		self.raiz = No(tamanho)
+
 node = No(8)
 node.jogada(2, 3, 5)
-
-#diagonais(2,2)
-#print defineDiagonal(0,0)
