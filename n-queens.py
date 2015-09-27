@@ -1,42 +1,39 @@
 import numpy
 
-sizeChest = 8
+class No:
+	def __init__(self, tamanho):
+		self.tamanhoTabuleiro = tamanho
+		self.tabuleiro = numpy.zeros((tamanho, tamanho))
 
-def start(sizeChest):
-	return numpy.zeros((sizeChest,sizeChest))
+	def espacosRejeitados(self, i, j):
+		linha = i
+		coluna = j
+		diferenca = i - j
+		dif_linha = 0
+		dif_coluna = 0
 
-def movement(chest,i,j):
-	chest[i][j] = 5
+		if diferenca < 0:
+			dif_coluna = diferenca * (-1)
+		else:
+			dif_linha = diferenca
 
-def  rejected_spot(i,j):
+		for x in range(self.tamanhoTabuleiro):
+			for y in range(self.tamanhoTabuleiro):
+				if (x == i or y == j) and self.tabuleiro[x][y] < 1:
+					self.tabuleiro[x][y] = -1
+				elif ((x == (i - linha + dif_linha)) and (y == (j - coluna + dif_coluna))):
+					if self.tabuleiro[x][y] != 5:
+						self.tabuleiro[x][y] = -1
+					linha -= 1
+					coluna -= 1
 
-	print len(chest)
-	line = i
-	column = j
-	difference = i - j
-	diff_line = 0
-	diff_col = 0
 
-	if difference < 0:
-		diff_col = difference * (-1)
-	else:
-		diff_line = difference
+	def jogada(self, i, j, valor):
+		self.tabuleiro[i][j] = valor
+		self.espacosRejeitados(i, j)
 
-	for x in range(len(chest)):
-		for y in range(len(chest)):
-			if (x == i or y == j) and chest[x][y] != 5:
-				chest[x][y] = -1
-			elif  ((x == (i - line + diff_line)) and (y == (j - column + diff_col))):
-				if chest[x][y] != 5:
-					chest[x][y] = -1
-				line -= 1
-				column -= 1
-	print chest
-
-chest = start(sizeChest)
-
-movement(chest,2,5)
-rejected_spot(2,5)
+node = No(8)
+node.jogada(2, 3, 5)
 
 #diagonais(2,2)
 #print defineDiagonal(0,0)
