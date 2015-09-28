@@ -90,7 +90,7 @@ matriz.jogada(3,0)
 matriz.jogada(4,2)
 matriz.jogada(5,4)
 
-#print matriz.tabuleiro
+print matriz.tabuleiro
 
 busca = Graph()
 

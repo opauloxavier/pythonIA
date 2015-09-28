@@ -1,11 +1,13 @@
 import numpy
 import copy
 
+
 class No:
 	def __init__(self, tamanho):
 		self.tamanhoTabuleiro = tamanho
 		self.tabuleiro = numpy.zeros((tamanho, tamanho))
 		self.filhos = []
+		self.pred = None
 
 	#anula as diagonais, linhas e colunas da rainha
 	def espacosRejeitados(self, i, j):
@@ -52,6 +54,8 @@ class No:
 class Arvore:
 	def __init__(self, tamanho):
 		self.raiz = No(tamanho)
+		self.linhaAtual=0
+		self.soma=0;
 
 	#faz os filhos da raiz, usar copy.deepcopy para fazer passagem de valor
 	#funcao generica, tem que generalizar 
@@ -61,6 +65,8 @@ class Arvore:
 				no = copy.deepcopy(self.raiz)
 				no.jogada(x, y)
 				self.raiz.filhos.append(no)
+				no.pred=self.raiz
+
 		print(len(self.raiz.filhos))
 
 	#conta e retorna quantos vazios tem no tabuleiro, entrada eh um no
@@ -72,9 +78,50 @@ class Arvore:
 					vazios += 1
 		return vazios
 
+	def expande(self,no): 
 
-#tree = Arvore(4)
-#tree.possibilidadesRaiz()
+		for x in range(self.raiz.tamanhoTabuleiro):
+			self.soma += no.tabuleiro[self.linhaAtual][x]
+				
+			if self.soma == (-1* no.tamanhoTabuleiro):
+				print "Nao possui mais possibilidades na linha %d" % self.linhaAtual
+				break
+
+			if no.tabuleiro[self.linhaAtual][x]==0:
+				noCopia = copy.deepcopy(no)
+				noCopia.pred=no
+				noCopia.jogada(self.linhaAtual,x)
+				no.filhos.append(noCopia)
+
+		self.linhaAtual+=1
+
+		return noCopia.filhos
+
+		
+	def expandeTudo(self):
+		no=self.raiz
+
+		self.expande(no)
+
+		no=self.raiz.filhos[0]
+
+		self.expande(no)
+
+		no=self.raiz.filhos[0].filhos[0]
+
+		self.expande(no)
+			
+		#for x in range(self.raiz.tamanhoTabuleiro):
+		#	no=no.filhos[x]
+
+
+
+
+tree = Arvore(4)
+tree.expandeTudo()
+
+print tree.raiz.filhos[0].filhos[0].tabuleiro
+
 #print(tree.vazios(tree.raiz.filhos[3]))
 
 #tree.raiz.jogada(1,1)
